@@ -1,0 +1,97 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/code_transformer/code_summarization.py'
+
+data_setup:
+  language: 'python,javascript,go,ruby'
+  filter_language: None
+  use_validation: True
+  num_sub_tokens: 5
+  num_subtokens_output: 6
+  use_only_ast: False
+  mask_all_tokens: False
+  use_no_punctuation: True
+  use_pointer_network: True
+  sort_by_length: False
+  shuffle: False
+  chunk_size: 32
+
+data_transforms:
+  max_distance_mask: None
+
+  relative_distances:
+    - ppr
+    - ancestor_sp
+    - sibling_sp
+    - shortest_paths
+
+  distance_binning:
+    type: 'exponential'
+    growth_factor: 1.3
+    n_fixed_bins: 9
+
+transfer_learning:
+  use_pretrained_model: True
+  model_type: 'ct_lm'
+  run_id: CT-LM-2
+  snapshot_iteration: "latest"
+  cpu: False
+  freeze_encoder_layers: None
+
+model:
+  with_cuda: True
+  label_smoothing: 0.1
+  lm_encoder:
+    input_nonlinearity: 'tanh'
+    num_languages: 4
+    transformer:
+      num_layers: 3
+      encoder_layer:
+        d_model: 1024
+        nhead: 8
+        dim_feedforward: 2048
+        dropout: 0.2
+        activation: 'gelu'
+        use_content_content: True
+        use_content_pos: True
+        use_pos_content: True
+        use_pos_pos: True
+        use_token_distances: True
+  lm_decoder:
+    output_nonlinearity: None
+    n_layers: 1
+    decoder_dropout: 0
+    decoder_nhead: 8
+    decoder_dim_feedforward: 2048
+    decoder_activation: 'gelu'
+    use_teacher_forcing: True
+    pointer_attention_type: 'additive'
+    use_pointer_query_linear: False
+    use_pointer_query_self_attention: False
+    concat_query_and_pointer: True
+    attend_cls_token: True
+
+optimizer:
+  optimizer: 'Adam'
+  learning_rate: 8e-5
+  reg_scale: 3e-5
+
+training:
+  random_seed: 456
+  batch_size: 8
+  simulated_batch_size: 128
+  simulated_batch_size_valid: 1280
+  accumulate_tokens_batch: False
+  validate_every: 100
+  persistent_snapshot_every: 10000
+  early_stopping_patience: 20
+  max_validation_samples: 50000
+  metrics:
+    - top1_accuracy
+    - top5_accuracy
+    - non_trivial_accuracy
+    - precision
+    - recall
+    - f1_score
+    - micro_f1_score
+    - rouge_2
+    - rouge_l

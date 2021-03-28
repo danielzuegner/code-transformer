@@ -1,0 +1,53 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/xl_net/language_modeling.py'
+
+data_setup:
+  language: 'java-small'
+  dataset_name: 'stage2'
+  use_validation: True
+  num_predict: 5
+
+transfer_learning:
+  use_pretrained_model: False
+  model_type: 'xl_net_lm'
+  run_id: None
+  snapshot_name: None
+
+model:
+  with_cuda: True
+  output_nonlinearity: None
+  transformer_lm_encoder:
+    subtokens_per_token: 5
+    input_nonlinearity: 'tanh'
+    transformer:
+      d_model: 1024
+      n_layer: 3
+      n_head: 8
+      d_inner: 2048
+      ff_activation: 'gelu'
+      dropout: 0.1
+
+optimizer:
+  learning_rate: 5e-5
+  reg_scale: 0
+
+  scheduler: 'OneCycleLR'
+  scheduler_params:
+    max_lr: 5e-5
+    steps_per_epoch: 4000 # 500000 / 128
+    epochs: 21
+    pct_start: 0.1
+
+training:
+  persistent_snapshot_every: 50000
+  random_seed: 123
+  batch_size: 8
+  simulated_batch_size: 128
+  validate_every: 10
+  metrics:
+    - top1_accuracy
+    - top5_accuracy
+    - non_trivial_accuracy
+    - precision
+    - recall
+    - f1_score

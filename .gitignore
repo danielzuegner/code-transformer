@@ -1,0 +1,7 @@
+# Python cache
+_pycache__
+*.py[cod]
+
+# IntelliJ/Jupyter
+.idea
+.ipynb_checkpoints

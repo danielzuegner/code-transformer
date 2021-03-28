@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module type="JAVA_MODULE" version="4"> 
+  <component name="NewModuleRootManager"> 
+    <output url="file://$MODULE_DIR$/target/classes"/>  
+    <output-test url="file://$MODULE_DIR$/target/test-classes"/>  
+    <content> 
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true"/>
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false"/>
+      <excludeFolder url="file://$MODULE_DIR$/target"/>
+    </content>  
+    <orderEntry type="module-library"> 
+      <library> 
+        <CLASSES>
+          <root url="jar:///home/tobias/.m2/repository/com/github/javaparser/javaparser-core-serialization/3.15.17/javaparser-core-serialization-3.15.17.jar!/"/>
+        </CLASSES>
+      </library> 
+    </orderEntry>  
+    <orderEntry type="module-library"> 
+      <library> 
+        <CLASSES>
+          <root url="jar:///home/tobias/.m2/repository/com/github/javaparser/javaparser-core/3.15.17/javaparser-core-3.15.17.jar!/"/>
+        </CLASSES>
+      </library> 
+    </orderEntry>  
+    <orderEntry type="module-library"> 
+      <library> 
+        <CLASSES>
+          <root url="jar:///home/tobias/.m2/repository/javax/json/javax.json-api/1.1.4/javax.json-api-1.1.4.jar!/"/>
+        </CLASSES>
+      </library> 
+    </orderEntry> 
+  </component> 
+</module>

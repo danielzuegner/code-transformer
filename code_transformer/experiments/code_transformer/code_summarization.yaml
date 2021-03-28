@@ -1,0 +1,113 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/code_transformer/code_summarization.py'
+
+data_setup:
+  language: 'python,javascript,ruby,go' # The dataset (language) to use
+  filter_language: python               # only for multi-language datasets. Let only snippets of the specified language through (fine-tuning)
+  use_validation: True
+  num_sub_tokens: 5                     # Number of sub-tokens that input tokens should be split into
+  num_subtokens_output: 6               # Number of sub-tokens of the method name to predict
+  use_only_ast: False                   # Whether to use the only-ast ablation
+  mask_all_tokens: False                # Only relevant if use_only_ast=True. Replaces all input tokens with a dummy token
+  use_no_punctuation: True              # Whether to drop punctuation tokens before feeding the snippets into the model
+  use_pointer_network: True             # Whether to use a pointer network in the decoder
+  sort_by_length: False                 # Whether to sort loaded slices by number of tokens. Useful to minimize amount of zero-padding needed
+  shuffle: False                        # Whether load order of snippets should be randomized
+  chunk_size: 32                        # Only relevant if shuffle=True and sort_by_lenght=True. Snippets will be chunked into chunks of `chunk_size`, which will then be randomly shuffled.
+
+data_transforms:
+  max_distance_mask: None               # Mask nodes if their relative distances exceed a certain treshold
+#    max_distance_mask:
+#      shortest_paths: 5
+#      ppr: -1
+#      sibling_sp: -1
+#      ancestor_sp: -1
+
+  relative_distances:                   # Which relative distances to use (have to be pre-computed in stage 2 preprocessing)
+    - ppr
+    - ancestor_sp
+    - sibling_sp
+    - shortest_paths
+
+  distance_binning:                     # Distance binning for dealing with real-valued distances
+    type: 'exponential'                 # "exponential" or "equal". Exponential binning has more diversified (smaller) bins for smaller distances
+    growth_factor: 1.3
+    n_fixed_bins: 9
+
+transfer_learning:                      # Load a pretrained model for fine-tuninig
+  use_pretrained_model: False
+  model_type: 'ct_code_summarization'
+  run_id: CT-23
+  snapshot_iteration: 10
+  cpu: False
+  freeze_encoder_layers: None           # None, "all" or {number}. If and how many encoder layers to keep constant during fine-tuning
+
+model:
+  with_cuda: True                       # Run model on GPU
+  label_smoothing: 0.1                  # Apply label smoothing to ground truth
+  lm_encoder:                           # Hyperparameters of the encoder
+    input_nonlinearity: 'tanh'
+    num_languages: None                   # only relevant for multi-language datasets. How many different languages have been fused together
+    transformer:                          # CodeTransformer hyperparameters
+      num_layers: 1
+      encoder_layer:
+        d_model: 1024                       # Internal embedding dimension
+        nhead: 8                            # Number of attention heads
+        dim_feedforward: 2048               # Dimension of feed-forward layer
+        dropout: 0.2
+        activation: 'gelu'
+        use_content_content: True           # Whether to use the content-content term in attention computation
+        use_content_pos: True               # Whether to use the content-content term in attention computation
+        use_pos_content: True               # Whether to use the content-content term in attention computation
+        use_pos_pos: True                   # Whether to use the content-content term in attention computation
+        use_token_distances: True           # Whether to also compute the simple hop-distance between the input tokens
+  lm_decoder:                           # Hyperparameters of the decoder
+    output_nonlinearity: None
+    n_layers: 1
+    decoder_dropout: 0
+    decoder_nhead: 8
+    decoder_dim_feedforward: 2048
+    decoder_activation: 'gelu'
+    use_teacher_forcing: True             # Whether to use teacher forcing during training (Label is fed into decoder instead of prediction for previous position)
+    pointer_attention_type: 'additive'    # Attention type in Pointer Network. "scaled_dot_product", "multihead" or "additive"
+    use_pointer_query_self_attention: False # Whether to use self-attention between pointer query and decoder input
+    concat_query_and_pointer: True        # Whether to also use the query-stream of the encoder output to guide the pointer query
+    attend_cls_token: False               # Whether to mask the CLS token for attention
+
+optimizer:
+  optimizer: 'Adam'
+  learning_rate: 8e-5
+  reg_scale: 3e-5
+
+  #scheduler: 'OneCycleLR'
+  #scheduler_params:
+  #  max_lr: 1e-4
+  #  steps_per_epoch: 4000 # 500000 / 128
+  #  epochs: 30
+  #  pct_start: 0.3
+
+  #scheduler: 'MultiStepLR'
+  #scheduler_params:
+  #  milestones: [1500, 5000]
+  #  gamma: 0.1
+
+training:
+  random_seed: 456
+  batch_size: 8
+  simulated_batch_size: 128         # Gradient Accumulation. After how many samples the model parameters should be updated
+  simulated_batch_size_valid: 1280  # Over how many samples validation metrics should be calculated
+  accumulate_tokens_batch: False
+  validate_every: 100               # Counted in number of parameter updates (simulated_batch_size). How often approximate evaluation should be done
+  persistent_snapshot_every: 10000  # Counted in loop iterations (batch_size). Also starts a full evaluation on the validation set to guide early stopping
+  early_stopping_patience: 20       # How often the model evaluation can be worse than the current best before training is stopped
+  max_validation_samples: 50000     # Limit number of samples for full evaluation on larger datasets to speed up training
+  metrics:                          # Which metrics to log
+    - top1_accuracy
+    - top5_accuracy
+    - non_trivial_accuracy
+    - precision
+    - recall
+    - f1_score
+    - micro_f1_score
+    - rouge_2
+    - rouge_l

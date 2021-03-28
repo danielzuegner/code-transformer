@@ -1,0 +1,16 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/preprocessing/preprocess-1.py'
+
+execution:
+  num_processes: 2
+  batch_size: 10
+  save_every: 100  # Processed data will be saved into zipped chunks of this size for easier handling
+  random_seed: 123
+
+preprocessing:
+  use_tokens_limiter: True  # Whether input snippets should be discarded if they are too long, i.e., have too many tokens
+  hard_num_tokens_limit: 10000  # hard tokens limit. Snippets with more tokens have to be dropped as generating an AST
+                                # would not be feasible for such long snippets
+  allow_empty_methods: True  # Sometimes, methods have no body
+  separate_label_vocabulary: False  # Whether a separate word counter should be computed that only contains words that
+                                    # appeared in the method name

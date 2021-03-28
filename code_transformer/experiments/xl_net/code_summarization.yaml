@@ -1,0 +1,78 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/xl_net/code_summarization.py'
+
+data_setup:
+  language: 'python,javascript,ruby,go'
+  use_validation: True
+  num_sub_tokens: 5
+  num_subtokens_output: 6
+  use_no_punctuation: True
+  use_pointer_network: True
+
+data_transforms:
+  max_distance_mask: None
+  relative_distances: None
+  distance_binning:
+    type: 'exponential'
+    growth_factor: 1.3
+    n_fixed_bins: 9
+
+transfer_learning:
+  use_pretrained_model: False
+  model_type: 'xl_net_lm'
+  run_id: 4
+  snapshot_iteration: 'latest'
+  cpu: False
+  freeze_encoder_layers: None
+
+model:
+  with_cuda: False
+  label_smoothing: 0.1
+  lm_encoder:
+    subtokens_per_token: 5
+    num_languages: 4
+    input_nonlinearity: 'tanh'
+    transformer:
+      d_model: 16
+      n_layer: 3
+      n_head: 8
+      d_inner: 16
+      ff_activation: 'gelu'
+      dropout: 0.2
+      mem_len: 16
+  lm_decoder:
+    output_nonlinearity: None
+    n_layers: 1
+    decoder_dropout: 0
+    decoder_nhead: 8
+    decoder_dim_feedforward: 2048
+    decoder_activation: 'gelu'
+    use_teacher_forcing: True
+    pointer_attention_type: 'additive'
+    use_pointer_query_linear: False
+    use_pointer_query_self_attention: False
+
+optimizer:
+  optimizer: 'Adam'
+  learning_rate: 8e-5
+  reg_scale: 3e-5
+
+training:
+  random_seed: 456
+  batch_size: 8
+  simulated_batch_size: 128
+  simulated_batch_size_valid: 1280
+  accumulate_tokens_batch: False
+  validate_every: 100
+  persistent_snapshot_every: 100
+  early_stopping_patience: 20
+  max_validation_samples: 50000
+  metrics:
+    - top1_accuracy
+    - top5_accuracy
+    - non_trivial_accuracy
+    - precision
+    - recall
+    - f1_score
+    - micro_f1_score
+

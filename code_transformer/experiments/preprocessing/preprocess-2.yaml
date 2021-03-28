@@ -1,0 +1,37 @@
+experiment_setup:
+  executable: 'code_transformer/experiments/preprocessing/preprocess-2.py'
+
+execution:
+  num_processes: 1
+  batch_size: 100
+  dataset_slice_size: 5000
+
+preprocessing:
+  remove_punctuation: True
+  max_num_tokens: 10000
+  vocab_size: 32000
+  min_vocabulary_frequency: 100
+  separate_label_vocabulary: False
+  vocab_size_labels: 5000
+  min_vocabulary_frequency_labels: None
+
+distances:
+  ppr_alpha: 0.15
+  ppr_use_log: True
+  ppr_threshold: 0.006737946999085467
+  sp_threshold: None
+  ancestor_sp_forward: True
+  ancestor_sp_backward: True
+  ancestor_sp_negative_reverse_dists: True
+  ancestor_sp_threshold: None
+  sibling_sp_forward: True
+  sibling_sp_backward: True
+  sibling_sp_negative_reverse_dists: True
+  sibling_sp_threshold: None
+
+binning:
+  num_bins: 32
+  n_fixed_bins: 9
+  exponential_binning: true
+  exponential_binning_growth_factor: 1.3
+  bin_padding: 0
