@@ -4,7 +4,7 @@ from code_transformer.modeling.great_transformer.transformer import GreatTransfo
     GreatEncoderTransformerAdapter
 from code_transformer.modeling.modelmanager import ModelManager, TransformerLMDecoderConfig, MultiheadAttention
 from code_transformer.preprocessing.datamanager.preprocessed import CTPreprocessedDataManager
-from env import MODELS_SAVE_PATH, DATA_PATH_STAGE_2
+from code_transformer.env import MODELS_SAVE_PATH, DATA_PATH_STAGE_2
 
 
 class GreatModelManager(ModelManager):

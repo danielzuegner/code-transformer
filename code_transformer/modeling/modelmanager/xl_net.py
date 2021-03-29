@@ -6,7 +6,7 @@ from code_transformer.modeling.constants import SOS_TOKEN, NUM_SUB_TOKENS
 from code_transformer.modeling.modelmanager.base import ModelManager
 from code_transformer.modeling.xl_net.decoder import XLNetTransformerDecoder
 from code_transformer.preprocessing.datamanager.preprocessed import CTPreprocessedDataManager
-from env import DATA_PATH_STAGE_2, MODELS_SAVE_PATH
+from code_transformer.env import DATA_PATH_STAGE_2, MODELS_SAVE_PATH
 
 
 class XLNetLMModelManager(ModelManager):

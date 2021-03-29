@@ -21,7 +21,7 @@ from code_transformer.preprocessing.nlp.vocab import WordCounter, CodeSummarizat
 from code_transformer.preprocessing.pipeline.stage1 import CTStage1Preprocessor, PreprocessingException
 from code_transformer.utils.log import get_logger
 from code_transformer.utils.timing import Timing
-from env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
+from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
 
 ex = Experiment(base_dir='../../..', interactive=False)
 

@@ -7,7 +7,7 @@ fed into a CodeTransformer model eventually.
 import argparse
 import subprocess
 
-from env import CODE2SEQ_RAW_DATA_PATH, CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, JAVA_METHOD_EXTRACTOR_EXECUTABLE, \
+from code_transformer.env import CODE2SEQ_RAW_DATA_PATH, CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, JAVA_METHOD_EXTRACTOR_EXECUTABLE, \
       JAVA_EXECUTABLE
 
 parser = argparse.ArgumentParser()

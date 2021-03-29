@@ -24,7 +24,7 @@ from code_transformer.preprocessing.dataset.lm import CTLanguageModelingDataset,
 from code_transformer.preprocessing.nlp.vocab import batch_decode
 from code_transformer.utils.io import load_zipped
 from code_transformer.utils.metrics import topk_accuracy
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 RUN_TESTS_ON_GPU = False
 

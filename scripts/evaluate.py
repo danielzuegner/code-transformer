@@ -23,7 +23,7 @@ from code_transformer.preprocessing.graph.distances import DistanceBinning
 from code_transformer.preprocessing.graph.transform import TokenDistancesTransform
 from code_transformer.utils.metrics import f1_score, compute_rouge, micro_precision, micro_recall, micro_f1_score, \
     get_best_non_unk_predictions
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 parser = ArgumentParser()
 parser.add_argument("model",

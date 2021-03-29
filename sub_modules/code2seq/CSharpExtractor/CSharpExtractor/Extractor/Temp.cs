@@ -1,4 +1,4 @@
-﻿namespace Extractor
+namespace Extractor
 {
     class Temp
     {

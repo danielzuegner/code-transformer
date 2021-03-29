@@ -12,7 +12,7 @@ from code_transformer.modeling.great_transformer.transformer import GreatEncoder
     GreatTransformerDecoder
 from code_transformer.preprocessing.datamanager.preprocessed import CTPreprocessedDataManager
 from code_transformer.preprocessing.dataset.code_summarization import CTCodeSummarizationDatasetEdgeTypes
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 
 class TestGreat(unittest.TestCase):

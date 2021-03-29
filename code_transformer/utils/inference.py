@@ -11,7 +11,7 @@ from code_transformer.preprocessing.graph.transform import DistancesTransformer,
 from code_transformer.preprocessing.nlp.vocab import CodeSummarizationVocabularyTransformer, VocabularyTransformer
 from code_transformer.preprocessing.pipeline.stage1 import CTStage1Preprocessor
 from code_transformer.preprocessing.pipeline.stage2 import CTStage2Sample
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 
 def get_model_manager(model_type):

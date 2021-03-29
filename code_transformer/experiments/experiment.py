@@ -1,5 +1,4 @@
 import random
-import random
 import signal
 import sys
 from abc import abstractmethod
@@ -29,7 +28,7 @@ from code_transformer.preprocessing.graph.transform import MaxDistanceMaskTransf
 from code_transformer.utils.metrics import top1_accuracy, topk_accuracy, precision, recall, f1_score, \
     non_trivial_words_accuracy, micro_f1_score, rouge_2, rouge_l
 from code_transformer.utils.timing import Timing
-from env import MODELS_SAVE_PATH, LOGS_PATH, DATA_PATH_STAGE_2
+from code_transformer.env import MODELS_SAVE_PATH, LOGS_PATH, DATA_PATH_STAGE_2
 
 ex = Experiment(base_dir='../../', interactive=False)
 

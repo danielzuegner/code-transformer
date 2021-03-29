@@ -6,7 +6,7 @@ from code_transformer.modeling.code_transformer.decoder import CodeTransformerDe
 from code_transformer.modeling.constants import SOS_TOKEN, NUM_SUB_TOKENS
 from code_transformer.modeling.modelmanager.base import ModelManager
 from code_transformer.preprocessing.datamanager.preprocessed import CTPreprocessedDataManager
-from env import MODELS_SAVE_PATH, DATA_PATH_STAGE_2
+from code_transformer.env import MODELS_SAVE_PATH, DATA_PATH_STAGE_2
 
 
 class CodeTransformerModelManager(ModelManager):

@@ -7,7 +7,6 @@ the validate and test partition
 """
 
 import itertools
-import os
 import signal
 import sys
 import traceback
@@ -31,7 +30,7 @@ from code_transformer.preprocessing.pipeline.stage1 import CTStage1Sample
 from code_transformer.preprocessing.pipeline.stage2 import CTStage2MultiLanguageSample
 from code_transformer.utils.log import get_logger
 from code_transformer.utils.timing import Timing
-from env import DATA_PATH_STAGE_1, DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_1, DATA_PATH_STAGE_2
 
 ex = Experiment(base_dir='../../..', interactive=False)
 

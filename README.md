@@ -1,12 +1,10 @@
 # Code Transformer
 
 This is an official PyTorch implementation of the `CodeTransformer` model proposed in:  
-> D. Zügner, T. Kirschstein, M. Catasta, J. Leskovec, and S. Günnemann, *“Language-agnostic representation learning of source code from structure and context”* 
+> D. Zügner, T. Kirschstein, M. Catasta, J. Leskovec, and S. Günnemann, *“Language-agnostic representation learning of source code from structure and context”* [[PDF]](https://arxiv.org/pdf/2103.11318.pdf)
 
-which appeared at **ICLR'2021**.  
-An online demo is available at [code-transformer.org](http://code-transformer.org).
-
-[[Paper (PDF)](https://arxiv.org/pdf/2103.11318.pdf) | [Poster](https://www.in.tum.de/fileadmin/w00bws/daml/code-transformer/iclr_2021_poster.pdf) | [Slides](https://www.in.tum.de/fileadmin/w00bws/daml/code-transformer/iclr_2021_slides.pdf) | [Online Demo](http://code-transformer.org)]
+which appeared in **ICLR'2021** ([Poster](TODO)).  
+An online demo is available at [code-transformer.org](http://www.code-transformer.org).
 
 The `CodeTransformer` is a Transformer based architecture that jointly learns from source code (Context) and parsed abstract syntax trees (AST; Structure). 
 It does so by linking source code tokens to AST nodes and using pairwise distances (e.g., Shortest Paths, PPR) between the nodes to represent the AST. 
@@ -18,16 +16,6 @@ Strengths of the `CodeTransformer`:
  - Outperforms other approaches on the source **code summarization** task.
  - Effectively leverages similarities among different programming languages when trained in a **multi-lingual setting**.
  - Produces **useful embeddings** that may be employed for other down-stream tasks such as finding similar code snippets across languages. 
-
-**Cite**
-Please cite our paper if you use the model, experimental results, or our code in your own work:
-```bibtex
-@inproceedings{zuegner_code_transformer_2021,
-title = {Language-Agnostic Representation Learning of Source Code from Structure and Context},
-author = {Z{\"u}gner, Daniel and Kirschstein, Tobias and Catasta, Michele and Leskovec, Jure and G{\"u}nnemann, Stephan},
-booktitle={International Conference on Learning Representations (ICLR)},
-year = {2021} }
-```
 
 # Table of Contents
 
@@ -77,7 +65,7 @@ Name | Description | Obtain from
 --- | --- | ---
 code2seq | We use `java-small` for Code Summarization as well as `java-medium` and `java-large` for Pretraining | [code2seq repository](https://github.com/tech-srl/code2seq)
 CodeSearchNet (CSN) | For our (multilingual) experiments on Python, JavaScript, Ruby and Go, we employ the raw data from the CSN challenge | [CodeSearchNet repository](https://github.com/github/CodeSearchNet)
-`java-pretrain` | For our Pretraining experiments, we compiled and deduplicated a large code method dataset based on `java-small`, `java-medium` and `java-large`.  | <ul><li> [java-pretrain-raw.tar.gz](https://syncandshare.lrz.de/dl/fiAynTGriqnd3jneXWCaUtaC/java-pretrain-raw.tar.gz): .txt files with paths to the .java files from the code2seq datasets for each partition</li><li> [java-pretrain-raw-methods.tar.gz](https://syncandshare.lrz.de/dl/fi7orY63QYiUeMPGCCb4fsHb/java-pretrain-raw-methods.tar.gz): Extracted Java methods stored in .json files. Can be directly fed into stage 1 Preprocessing </li></ul>
+`java-pretrain` | For our Pretraining experiments, we compiled and deduplicated a large code method dataset based on `java-small`, `java-medium` and `java-large`.  | <ul><li> [java-pretrain-raw.tar.gz](TODO): .txt files with paths to the .java files from the code2seq datasets for each partition</li><li> [java-pretrain-raw-methods.tar.gz](TODO): Extracted Java methods stored in .json files. Can be directly fed into stage 1 Preprocessing </li></ul>
 
 ### 1.1.2. Preprocessed Data
 
@@ -85,13 +73,13 @@ We make our preprocessed datasets available for a quick setup and easy reproduci
 
 Name | Language(s) | Based on | Download
 --- | --- | --- | ---
-Python | Python | CSN | [python.tar.gz](https://syncandshare.lrz.de/dl/fi5NDSSUYPnEQ2D6zga4XtN5/python.tar.gz)
-JavaScript | JavaScript | CSN | [javascript.tar.gz](https://syncandshare.lrz.de/dl/fiMwJmQ1LBsKuqwaLJU9TbGf/javascript.tar.gz)
-Ruby | Ruby | CSN | [ruby.tar.gz](https://syncandshare.lrz.de/dl/fi7pgkBDp13sYPcX8KGwFhqP/ruby.tar.gz)
-Go | Go | CSN | [go.tar.gz](https://syncandshare.lrz.de/dl/fiUieK6BQ1LAWdLfSn9myDUD/go.tar.gz)
-Multi-language | Python, JavaScript, Ruby, Go | CSN | [multi-language.tar.gz](https://syncandshare.lrz.de/dl/fiLNKYzUmYnSCtTdhVPwEyfz/multi-language.tar.gz)
-java-small | Java | code2seq | <ul><li>[java-small.tar.gz](https://syncandshare.lrz.de/dl/fi9phA15Ga1jHGxbp6tbWZG9/java-small.tar.gz)</li><li>[java-small-pretrain.tar.gz](https://syncandshare.lrz.de/dl/fiMMKup8E41d7ybQyNnbSLXB/java-small-pretrain.tar.gz): For fine-tuning the pretrained model on `java-small`</li></ul>
-java-pretrain | Java | code2seq | Full dataset available on request due its enormous size <br /> <ul><li>[java-pretrain-vocabularies.tar.gz](https://syncandshare.lrz.de/dl/fiTj35Vo4ZGHeDjHN2Uh8XYH/java-pretrain-vocabularies.tar.gz): Contains only the vocabularies from pretraining and can be used for fine-tuning the pretrained `CT-LM-1` model on any other Java dataset </li></ul>
+Python | Python | CSN | [python.tar.gz](TODO)
+JavaScript | JavaScript | CSN | [javascript.tar.gz](TODO)
+Ruby | Ruby | CSN | [ruby.tar.gz](TODO)
+Go | Go | CSN | [go.tar.gz](TODO)
+Multi-language | Python, JavaScript, Ruby, Go | CSN | [multi-language.tar.gz](TODO)
+java-small | Java | code2seq | <ul><li>[java-small.tar.gz](TODO)</li><li>[java-small-pretrain.tar.gz](TODO): For fine-tuning the pretrained model on `java-small`</li></ul>
+java-pretrain | Java | code2seq | Full dataset available on request due its enormous size <br /> <ul><li>[java-pretrain-vocabularies.tar.gz](TODO): Contains only the vocabularies from pretraining and can be used for fine-tuning the pretrained `CT-LM-1` model on any other Java dataset </li></ul>
 
 ## 1.2. Example notebooks
 
@@ -102,12 +90,19 @@ The `notebooks/` folder contains two example notebooks that showcase the `CodeTr
 
 ## 1.3. Environment Variables
 
-`env.py` contains all environment variables (and thus external dependencies on the host machine) used in the project. These have to be set to suit your local setup before anything can be run.
+All environment variables (and thus external dependencies on the host machine) used in the project have to be specified in an `.env` configuration file. 
+These have to be set to suit your local setup before anything can be run.  
+The [.env.example](.env.example) file gives an example configuration. The actual configuration has to be put into `${HOME}/.config/code_transformer/.env`.  
+Alternatively, you can also directly specify the paths as environment variables, e.g., by sourcing the .env file.
 
-Variable | Description | Preprocessing | Training | Inference/Evaluation
+Variable (+ `CODE_TRANSFORMER_` prefix) | Description | Preprocessing | Training | Inference/Evaluation
 ---|---|---|---|---
-`MODELS_SAVE_PATH` | Location for storing model configs, snapshots and predictions | - | X | X
+**Mandatory** |||
+`DATA_PATH` | Location for storing datasets | X | X | X
+`BINARY_PATH` | Location for storing executables | X | - | -
+`MODELS_PATH` | Location for storing model configs, snapshots and predictions | - | X | X
 `LOGS_PATH` | Location for logging train metrics | - | X | -
+**Optional** |||
 `CSN_RAW_DATA_PATH` | Location of the downloaded raw CSN dataset files | X | - | -
 `CODE2SEQ_RAW_DATA_PATH` | Location of the downloaded raw code2seq dataset files (Java classes) | X | - | -
 `CODE2SEQ_EXTRACTED_METHODS_DATA_PATH` | Location of the code snippets extracted from the raw code2seq dataset with the JavaMethodExtractor | X | - | -
@@ -178,8 +173,9 @@ Variable | Description | Preprocessing | Training | Inference/Evaluation
 │   │       ├── text.py           # Simple text handling such as positions of words in documents
 │   │       ├── tokenization.py   # Mostly wrapper around Pygments Tokenizer to tokenize (and sub-tokenize) code snippets
 │   │       └── vocab.py          # Mapping of the most frequent tokens to IDs understandable for ML models
-│   └── utils
-│       └── metrics.py        # Evaluation metrics. Mostly, different F1-scores
+│   ├── utils
+│   │   └── metrics.py        # Evaluation metrics. Mostly, different F1-scores
+│   └── env.py               # Defines several environment variables such as paths to executables 
 ├── scripts               # (Python) scripts intended to be run from the command line "python -m scripts/{SCRIPT_NAME}"
 │   ├── code2seq
 │   │   ├── combine-vocabs-code2seq.sh    # Creates code2seq vocabularies for multi-language setting 
@@ -199,7 +195,7 @@ Variable | Description | Preprocessing | Training | Inference/Evaluation
 │   ├── java-method-extractor  # code2seq adaptation: Extracts Java methods from .java files as JSON 
 │   └── java-parser            # Simple parser wrapper for generating Java ASTs
 ├── tests                   # Unit Tests for parts of the project
-└── env.py                  # Defines several environment variables such as paths to executables 
+└── .env.example            # Example environment variables configuration file
 ```
 
 
@@ -221,7 +217,7 @@ To enable stage 1 preprocessing, you can either:
 
 1. Build `semantic` on your machine using a revision with the `--json-graph` option. We refer to the `semantic` documentation for build instructions.  
 or
-2. Use the statically linked `semantic` executable that we built for our experiments: [semantic.tar.gz](https://syncandshare.lrz.de/dl/fiK3DkYhvPaS1sENaGuABvi8/semantic.tar.gz)
+2. Use the statically linked `semantic` executable that we built for our experiments: [semantic.tar.gz](TODO)
 ## 2.2. CSN Dataset
 
 Download the raw CSN dataset files as described in the [raw data section](#111-raw-data).
@@ -392,9 +388,9 @@ We also make all our trained models that are mentioned in the paper available fo
 
 Name | Description | Models | Download
 ---|---|---|---
-CSN Single Language | All models trained on one of the Python, JavaScript, Ruby or Go datasets | `GT-[1-4]`, `XL-[1-4]`, `CT-[1-8]` | [csn-single-language-models.tar.gz](https://syncandshare.lrz.de/dl/fiKKgjvrkCwR3tVd5Gtu9Xpw/csn-single-language-models.tar.gz)
-CSN Multi-Language | All models trained on the multi-language dataset + Pretraining |  `GT-5`, `XL-5`, `CT-[9-15]`, `CT-LM-2` | [csn-multi-language-models.tar.gz](https://syncandshare.lrz.de/dl/fiRzRDTxZCKnpsiCRGaAwbiT/csn-multi-language-models.tar.gz)
-code2seq | All models trained on the code2seq `java-small` dataset + Pretraining | `XL-[6+7]`, `GT-6`, `CT-[16-20]`, `CT-LM-1` | [code2seq-models.tar.gz](https://syncandshare.lrz.de/dl/fi9FdtymVXyM79rit36cDejn/code2seq-models.tar.gz)
-Ablation | The models trained for ablation purposes on `java-small` | `CT-[21-24]` | [ablation-models.tar.gz](https://syncandshare.lrz.de/dl/fiDBwavsFX7jP5UxTQde67D8/ablation-models.tar.gz)
+CSN Single Language | All models trained on one of the Python, JavaScript, Ruby or Go datasets | `GT-[1-4]`, `XL-[1-4]`, `CT-[1-8]` | [csn-single-language-models.tar.gz](TODO)
+CSN Multi-Language | All models trained on the multi-language dataset + Pretraining |  `GT-5`, `XL-5`, `CT-[9-15]`, `CT-LM-2` | [csn-multi-language-models.tar.gz](TODO)
+code2seq | All models trained on the code2seq `java-small` dataset + Pretraining | `XL-[6+7]`, `GT-6`, `CT-[16-20]`, `CT-LM-1` | [code2seq-models.tar.gz](TODO)
+Ablation | The models trained for ablation purposes on `java-small` | `CT-[21-24]` | [ablation-models.tar.gz](TODO)
 
 Once downloaded, you can test any of the above models in the [interactive_prediction.ipynb](notebooks/interactive_prediction.ipynb) notebook.

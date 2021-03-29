@@ -8,7 +8,7 @@ from code_transformer.preprocessing.dataset.code_summarization import CTCodeSumm
     CTCodeSummarizationDatasetNoPunctuation
 from code_transformer.preprocessing.graph.distances import DistanceBinning
 from code_transformer.preprocessing.graph.transform import TokenDistancesTransform
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 
 class CTCodeSummarizationMixin(ExperimentSetup, ABC):

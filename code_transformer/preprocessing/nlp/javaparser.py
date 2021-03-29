@@ -5,7 +5,7 @@ Uses the JavaParser .jar to obtain an AST from a Java method snippet.
 import json
 import subprocess
 
-from env import JAVA_EXECUTABLE, JAVA_PARSER_EXECUTABLE
+from code_transformer.env import JAVA_EXECUTABLE, JAVA_PARSER_EXECUTABLE
 from code_transformer.utils.log import get_logger
 
 JAVA_PARSER_CMD = f"{JAVA_EXECUTABLE} -jar {JAVA_PARSER_EXECUTABLE}"

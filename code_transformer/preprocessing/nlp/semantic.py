@@ -14,7 +14,7 @@ import subprocess
 import threading
 from collections import OrderedDict
 
-from env import SEMANTIC_EXECUTABLE
+from code_transformer.env import SEMANTIC_EXECUTABLE
 from code_transformer.utils.log import get_logger
 
 logger = get_logger(__file__)

@@ -1,4 +1,4 @@
-﻿using Extractor.Semantics;
+using Extractor.Semantics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

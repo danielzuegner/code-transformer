@@ -12,7 +12,7 @@ from code_transformer.modeling.xl_net.decoder import XLNetTransformerDecoder
 from code_transformer.modeling.xl_net.xl_net_language_model import XLNetLMEncoder
 from code_transformer.preprocessing.datamanager.preprocessed import CTPreprocessedDataManager
 from code_transformer.preprocessing.dataset.code_summarization import CTCodeSummarizationDatasetNoPunctuation
-from env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2
 
 
 class TestXLNet(unittest.TestCase):

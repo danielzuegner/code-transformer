@@ -32,7 +32,7 @@ from tqdm import tqdm
 
 from code_transformer.preprocessing.datamanager.base import DataManager
 from code_transformer.utils.io import save_pickled
-from env import CODE2SEQ_RAW_DATA_PATH
+from code_transformer.env import CODE2SEQ_RAW_DATA_PATH
 
 FILE_SIMILARTY = 0.7  # Similarity threshold that defines when to delete a file in java-pretrain
 NUM_PROCESSES = 12
