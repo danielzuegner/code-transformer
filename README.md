@@ -41,9 +41,10 @@ year = {2021} }
     - [1.4. Repository Structure](#14-repository-structure)
 - [2\. Preprocessing](#2-preprocessing)
     - [2.1. semantic](#21-semantic)
-    - [2.2. CSN Dataset](#22-csn-dataset)
-    - [2.3. code2seq Dataset](#23-code2seq-dataset)
-    - [2.4. Multi-language](#24-multilanguage-dataset)
+    - [2.2. JavaParser & JavaMethodExtractor](#22-javaparser--javamethodextractor)
+    - [2.3. CSN Dataset](#23-csn-dataset)
+    - [2.4. code2seq Dataset](#24-code2seq-dataset)
+    - [2.5. Multi-language](#25-multilanguage-dataset)
 - [3\. Training](#3-training)
     - [3.1. Code Transformer](#31-code-transformer)
     - [3.2. GREAT](#32-great)
@@ -230,7 +231,15 @@ To enable stage 1 preprocessing, you can either:
 1. Build `semantic` on your machine using a revision with the `--json-graph` option. We refer to the `semantic` documentation for build instructions.  
 or
 2. Use the statically linked `semantic` executable that we built for our experiments: [semantic.tar.gz](https://syncandshare.lrz.de/dl/fiK3DkYhvPaS1sENaGuABvi8/semantic.tar.gz)
-## 2.2. CSN Dataset
+
+## 2.2. JavaParser & JavaMethodExtractor
+
+As Java is not currently supported by semantic, we employ a separate AST parser based on the [javaparser](https://github.com/javaparser/javaparser) project.
+Our adaption can be found in the [/sub_modules/java-parser](sub_modules/java-parser) directory that also contains a prebuilt [java-parser-1.0-SNAPSHOT.jar](sub_modules/java-parser/target/java-parser-1.0-SNAPSHOT.jar).
+
+If you want to reproduce our experiments on the code2seq Java dataset or assemble your own Java dataset to train the `CodeTransformer` you can also make use of the [JavaMethodExtractor-1.0.0-SNAPSHOT.jar](sub_modules/java-method-extractor/target/JavaMethodExtractor-1.0.0-SNAPSHOT.jar) that gathers Java methods from a folder structure of class files.
+
+## 2.3. CSN Dataset
 
 Download the raw CSN dataset files as described in the [raw data section](#111-raw-data).
 
@@ -246,7 +255,7 @@ Download the raw CSN dataset files as described in the [raw data section](#111-r
 The `.yaml` files contain configurations for preprocessing (e.g., which distance metrics to use and how the vocabularies are generated).  
 It is important to run the preprocessing for the `train` partition first as statistics for generating the vocabulary that are needed for the other partitions are computed there.
 
-## 2.3. code2seq Dataset
+## 2.4. code2seq Dataset
 
 Download the raw code2seq dataset files (Java classes) as described in the [raw data section](#111-raw-data).
 1. Extract methods from the raw Java class files via  
@@ -266,7 +275,7 @@ The `.yaml` files contain configurations for preprocessing (e.g., which distance
 Ensure to run the preprocessing for the `train` partition first as statistics for generating the vocabulary that are needed for the other partitions are computed there.
 
 
-## 2.4. Multilanguage Dataset
+## 2.5. Multilanguage Dataset
 
 Builds upon the stage 1 CSN datasets computed as shown above. Datasets are then combined by simply running the stage 2 preprocessing with a comma-separated string containing the desired languages. For the experiments in our paper we combined Python, JavaScript, Ruby and Go:  
 ```shell
