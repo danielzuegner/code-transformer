@@ -17,3 +17,4 @@ PyYAML==5.4.1
 Requests==2.23.0
 scikit_learn==0.24.1
 environs==9.3.1
+sacred==0.8.1
