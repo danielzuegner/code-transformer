@@ -271,7 +271,12 @@ def calculate_metrics(predictions, labels, pad_id=None, unk_id=None):
 
         if all([st == pad_id for st in predicted]) and all([st == pad_id for st in label]):
             # Edge case in JavaScript: empty method names are allowed which are represented as only [PAD] tokens
-            # If prediction was correct, it counts as 1 true positive
+            # If prediction was correct, it counts as 1 true positive.
+            # Currently, we drop all code snippets with anonymous functions since the AST leaks the method name due to
+            # the missing function name node in such cases (see CTCodeSummarizationDataset).
+            # Hence, this if statement could be removed. However, we leave it as a future reminder in case the
+            # preprocessing is updated to account for anonymous functions (e.g., by inserting a fake method name
+            # into the code snippet sequence before computing the AST).
             true_positive += 1
             continue
         if filtered_original_subtokens == filtered_predicted_names:
