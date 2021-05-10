@@ -151,12 +151,13 @@ class TransformerLMEncoder(nn.Module):
                                                       need_all_embeddings=need_all_embeddings)
         return transformer_output
 
-    def forward_batch(self, batch: CTBatch, need_weights=False) -> \
+    def forward_batch(self, batch: CTBatch, need_weights=False, need_all_embeddings=False) -> \
             TransformerOutput:
         output = self.forward(batch.tokens, input_node_types=batch.node_types, input_token_types=batch.token_types,
                               relative_distances=batch.relative_distances, attention_mask=batch.perm_mask,
                               pad_mask=1 - batch.pad_mask, target_mapping=batch.target_mapping,
-                              need_weights=need_weights)
+                              need_weights=need_weights, languages=batch.languages,
+                              need_all_embeddings=need_all_embeddings)
         return output
 
 
