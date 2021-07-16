@@ -245,7 +245,7 @@ Download the raw CSN dataset files as described in the [raw data section](#111-r
 
 1. Compute ASTs (stage 1)
    ```shell
-    python -m scripts.run-preprocessing code_transformer/experiments/preprocessing/preprocess-1-csn.yaml {python|javascript|ruby|go} {train|valid|test} 
+    python -m scripts.run-preprocessing code_transformer/experiments/preprocessing/preprocess-1.yaml {python|javascript|ruby|go} {train|valid|test} 
    ```
 2. Compute graph distances (stage 2)  
     ```shell
