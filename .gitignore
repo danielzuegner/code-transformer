@@ -6,3 +6,6 @@ _pycache__
 .idea
 .ipynb_checkpoints
 .DS_Store
+
+# Folders
+data
