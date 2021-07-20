@@ -16,12 +16,14 @@ from sacred import Experiment
 
 from code_transformer.preprocessing.datamanager.c2s.raw import C2SRawDataLoader
 from code_transformer.preprocessing.datamanager.csn.raw import CSNRawDataLoader
+from code_transformer.preprocessing.datamanager.cpp.raw import CPPRawDataLoader
 from code_transformer.preprocessing.datamanager.preprocessed import CTBufferedDataManager
 from code_transformer.preprocessing.nlp.vocab import WordCounter, CodeSummarizationVocabularyBuilder, VocabularyBuilder
 from code_transformer.preprocessing.pipeline.stage1 import CTStage1Preprocessor, PreprocessingException
 from code_transformer.utils.log import get_logger
 from code_transformer.utils.timing import Timing
-from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
+from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CPP_RAW_DATA_PATH, \
+    CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
 
 ex = Experiment(base_dir='../../..', interactive=False)
 
@@ -69,6 +71,10 @@ class Preprocess1Container:
             self.dataset_name = language
             self.language = "java"
             self.dataset_type = "code2seq"
+        elif language == "cpp":
+            self.dataset_name = language
+            self.language = "cpp"
+            self.dataset_type = "cpp"
         else:
             self.dataset_name = language
             self.dataset_type = "code-search-net"
@@ -76,6 +82,8 @@ class Preprocess1Container:
 
         if self.dataset_type == 'code2seq':
             self.input_data_path = CODE2SEQ_EXTRACTED_METHODS_DATA_PATH
+        elif self.dataset_type == 'cpp':
+            self.input_data_path = CPP_RAW_DATA_PATH
         else:
             self.input_data_path = CSN_RAW_DATA_PATH
 
@@ -115,6 +123,9 @@ class Preprocess1Container:
         if self.dataset_type == 'code2seq':
             self.dataloader = C2SRawDataLoader(self.input_data_path)
             self.dataloader.load_dataset(self.dataset_name, partition=self.partition)
+        elif self.dataset_type == "cpp":
+            self.dataloader = CPPRawDataLoader(self.input_data_path)
+            self.dataloader.load_all_for(partition=self.partition)
         else:
             self.dataloader = CSNRawDataLoader(self.input_data_path)
             self.dataloader.load_all_for(self.language, partition=self.partition)

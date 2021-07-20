@@ -59,6 +59,7 @@ with env.prefixed("CODE_TRANSFORMER_"):
     LOGS_PATH = env("LOGS_PATH")
 
     CSN_RAW_DATA_PATH = env("CSN_RAW_DATA_PATH", f"{_DATA_PATH}/raw/csn")
+    CPP_RAW_DATA_PATH = env("CPP_RAW_DATA_PATH", f"{_DATA_PATH}/raw/cpp")
     CODE2SEQ_RAW_DATA_PATH = env("CODE2SEQ_RAW_DATA_PATH", f"{_DATA_PATH}/raw/code2seq")
     CODE2SEQ_EXTRACTED_METHODS_DATA_PATH = env("CODE2SEQ_EXTRACTED_METHODS_DATA_PATH", f"{_DATA_PATH}/raw/code2seq-methods")
 
