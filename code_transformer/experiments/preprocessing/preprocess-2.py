@@ -273,7 +273,6 @@ class Preprocess2Container:
         else:
             self.input_data_manager.shutdown()
         self.output_data_manager.shutdown()
-        sys.exit(0)
 
     def run(self):
 
