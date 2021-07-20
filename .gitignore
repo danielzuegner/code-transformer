@@ -5,3 +5,4 @@ _pycache__
 # IntelliJ/Jupyter
 .idea
 .ipynb_checkpoints
+.DS_Store
