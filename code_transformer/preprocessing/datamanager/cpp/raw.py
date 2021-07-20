@@ -2,11 +2,8 @@
 Dataloader for the raw method snippets from the CPP dataset stored as raw cpp files.
 """
 
-import glob
-import json
 import os
 import random
-import jsonlines
 
 from code_transformer.preprocessing.datamanager.base import DataManager, RawDataLoader
 from code_transformer.preprocessing.datamanager.csn.raw import CSNRawSample
