@@ -1,6 +1,7 @@
 # Python cache
 _pycache__
 *.py[cod]
+*.egg-info
 
 # IntelliJ/Jupyter
 .idea
