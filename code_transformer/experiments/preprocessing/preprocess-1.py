@@ -158,7 +158,6 @@ class Preprocess1Container:
 
     def _handle_shutdown(self, sig=None, frame=None):
         self.data_manager.shutdown()
-        sys.exit(0)
 
     # =========================================================================
     # Main method
