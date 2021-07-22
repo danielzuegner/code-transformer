@@ -81,8 +81,8 @@ def cpp_to_ast(*code_snippets):
     asts = []
     idx_successful = []
     for i, code_snippet in enumerate(code_snippets):
-        tree = parser.parse(bytes("\n" + code_snippet, "utf8"))
-        idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree))}
+        tree = parser.parse(bytes(code_snippet, "utf8"))
+        idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree)[1:])}
         node2idx = {(node.start_point, node.end_point): i for i, node in idx2node.items()}
 
         ast = dict(language="cpp", path="")
@@ -90,12 +90,12 @@ def cpp_to_ast(*code_snippets):
             {
                 "span": {
                     "end": {
-                        "column": node.end_point[0],
-                        "line": node.end_point[1]
+                        "column": node.end_point[1] + 1,
+                        "line": node.end_point[0] + 1
                     },
                     "start": {
-                        "column": node.start_point[0],
-                        "line": node.start_point[1]
+                        "column": node.start_point[1] + 1,
+                        "line": node.start_point[0] + 1
                     },
                 },
                 "term": node.type,
@@ -107,7 +107,7 @@ def cpp_to_ast(*code_snippets):
                 "source": node2idx[(node.parent.start_point, node.parent.end_point)],
                 "target": i
             }
-            for i, node in idx2node.items() if node.parent is not None
+            for i, node in idx2node.items() if (node.parent.start_point, node.parent.end_point) in node2idx
         ]
 
         asts.append(ast)
