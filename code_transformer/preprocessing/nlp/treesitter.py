@@ -102,13 +102,18 @@ def cpp_to_ast(*code_snippets):
                 "vertexId": i
             }
             for i, node in idx2node.items()]
-        ast["edges"] = [
-            {
-                "source": node2idx[(node.parent.start_point, node.parent.end_point)],
-                "target": i
-            }
-            for i, node in idx2node.items() if (node.parent.start_point, node.parent.end_point) in node2idx
-        ]
+
+        def get_range(node):
+            return (node.start_point, node.end_point)
+
+        ast["edges"] = []
+        for i, node in idx2node.items():
+            rng = get_range(node.parent)
+            if (rng in node2idx) and (i != node2idx[rng]):
+                ast["edges"].append({
+                    "source": node2idx[get_range(node.parent)],
+                    "target": i
+                })
 
         asts.append(ast)
         idx_successful.append(i)
