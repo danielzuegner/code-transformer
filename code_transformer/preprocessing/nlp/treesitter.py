@@ -84,7 +84,7 @@ def cpp_to_ast(*code_snippets):
         errors = ""
         tree = parser.parse(bytes(code_snippet, "utf8"))
         idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree))}
-        node2idx = {node: i for i, node in idx2node.items()}
+        node2idx = {(node.start_point, node.end_point): i for i, node in idx2node.items()}
 
         ast = dict(language="cpp", path="")
         ast["vertices"] = [
@@ -105,7 +105,7 @@ def cpp_to_ast(*code_snippets):
             for i, node in idx2node.items()]
         ast["edges"] = [
             {
-                "source": node2idx[node.parent()],
+                "source": node2idx[(node.parent().start_pont, node.parent().end_point)],
                 "target": i
             }
             for i, node in idx2node.items() if node.parent() is not None
