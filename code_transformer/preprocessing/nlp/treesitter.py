@@ -82,7 +82,7 @@ def cpp_to_ast(*code_snippets):
     idx_successful = []
     for i, code_snippet in enumerate(code_snippets):
         tree = parser.parse(bytes(code_snippet, "utf8"))
-        idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree)[1:])}
+        idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree)) if node.parent is not None}
         node2idx = {(node.start_point, node.end_point): i for i, node in idx2node.items()}
 
         ast = dict(language="cpp", path="")
