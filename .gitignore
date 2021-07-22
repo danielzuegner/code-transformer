@@ -10,3 +10,5 @@ _pycache__
 
 # Folders
 data
+build
+bin
