@@ -15,6 +15,7 @@ from code_transformer.modeling.constants import NUM_SUB_TOKENS, MAX_NUM_TOKENS, 
 from code_transformer.preprocessing.graph.ast import ASTGraph
 from code_transformer.preprocessing.nlp.javaparser import java_to_ast
 from code_transformer.preprocessing.nlp.semantic import semantic_parse
+from code_transformer.preprocessing.nlp.treesitter import cpp_to_ast
 from code_transformer.preprocessing.nlp.tokenization import PygmentsTokenizer, CTToken
 from code_transformer.preprocessing.pipeline.filter import CodePreprocessor, CommentsRemover, \
     EmptyLinesRemover, StringMasker, NumbersMasker, IndentTransformer, SubTokenizer, WhitespaceRemover, TokensLimiter, \
@@ -81,6 +82,8 @@ class CTStage1Preprocessor:
         # Step 3: Create ASTs from code snippets
         if self.language == 'java':
             ast_batch, idx_successful = java_to_ast(*stripped_code_snippets)
+        elif self.language == 'cpp':
+            ast_batch, idx_successful = cpp_to_ast(*stripped_code_snippets)
         else:
             ast_batch, idx_successful = semantic_parse(self.language, "--fail-on-parse-error", "--json-graph",
                                                        process_identifier, *stripped_code_snippets, quiet=False)
