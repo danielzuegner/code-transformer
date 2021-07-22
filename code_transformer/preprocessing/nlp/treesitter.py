@@ -80,7 +80,7 @@ def cpp_to_ast(*code_snippets):
 
     asts = []
     idx_successful = []
-    for i, code_snippet in enumerate(code_snippets):
+    for idx, code_snippet in enumerate(code_snippets):
         tree = parser.parse(bytes(code_snippet, "utf8"))
         idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree)) if node.parent is not None}
         node2idx = {(node.start_point, node.end_point): i for i, node in idx2node.items()}
@@ -116,5 +116,5 @@ def cpp_to_ast(*code_snippets):
                 })
 
         asts.append(ast)
-        idx_successful.append(i)
+        idx_successful.append(idx)
     return {"files": asts}, idx_successful
