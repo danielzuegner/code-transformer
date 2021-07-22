@@ -83,16 +83,38 @@ def cpp_to_ast(*code_snippets):
     for i, code_snippet in enumerate(code_snippets):
         errors = ""
         tree = parser.parse(bytes(code_snippet, "utf8"))
+        idx2node = {i: node for i, node in enumerate(traverse_tree(tree=tree))}
+        node2idx = {node: i for i, node in idx2node.items()}
 
-        for node in traverse_tree(tree=tree):
-            print(node.parent, node.type, node.start_point, node.end_point)
-        print()
+        ast = dict(language="cpp", path="")
+        ast["vertices"] = [
+            {
+                "span": {
+                    "end": {
+                        "column": node.end_point[0],
+                        "line": node.end_point[1]
+                    },
+                    "start": {
+                        "column": node.start_point[0],
+                        "line": node.start_point[1]
+                    },
+                },
+                "term": node.type,
+                "vertexId": i
+            }
+            for i, node in idx2node.items()]
+        ast["edges"] = [
+            {
+                "source": node2idx[node.parent()],
+                "target": i
+            }
+            for i, node in idx2node.items() if node.parent() is not None
+        ]
 
         if not errors == "":
             logger.warn(errors)
             logger.warn(code_snippet)
         else:
-            output = json.loads("")
-            asts.append(output)
+            asts.append(ast)
             idx_successful.append(i)
     return asts, idx_successful
