@@ -105,7 +105,7 @@ def cpp_to_ast(*code_snippets):
             for i, node in idx2node.items()]
         ast["edges"] = [
             {
-                "source": node2idx[(node.parent.start_pont, node.parent.end_point)],
+                "source": node2idx[(node.parent.start_point, node.parent.end_point)],
                 "target": i
             }
             for i, node in idx2node.items() if node.parent is not None
