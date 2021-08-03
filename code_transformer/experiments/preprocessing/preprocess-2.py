@@ -31,6 +31,8 @@ from code_transformer.preprocessing.pipeline.stage2 import CTStage2MultiLanguage
 from code_transformer.utils.log import get_logger
 from code_transformer.utils.timing import Timing
 from code_transformer.env import DATA_PATH_STAGE_1, DATA_PATH_STAGE_2
+from code_transformer.env import POJ_DATA_PATH_STAGE_1, POJ_DATA_PATH_STAGE_2
+from code_transformer.env import CODEFORCES_DATA_PATH_STAGE_1, CODEFORCES_DATA_PATH_STAGE_2
 
 ex = Experiment(base_dir='../../..', interactive=False)
 
@@ -110,8 +112,15 @@ class Preprocess2Container:
         if self.use_multi_language:
             self.languages = self.language.split(',')
 
-        self.input_path = DATA_PATH_STAGE_1
-        self.output_path = DATA_PATH_STAGE_2
+        if language == "poj_104":
+            self.input_path = POJ_DATA_PATH_STAGE_1
+            self.output_path = POJ_DATA_PATH_STAGE_2
+        elif language == "codeforces":
+            self.input_path = CODEFORCES_DATA_PATH_STAGE_1
+            self.output_path = CODEFORCES_DATA_PATH_STAGE_2
+        else:
+            self.input_path = DATA_PATH_STAGE_1
+            self.output_path = DATA_PATH_STAGE_2
 
     @ex.capture(prefix="binning")
     def _init_binning(self, num_bins,

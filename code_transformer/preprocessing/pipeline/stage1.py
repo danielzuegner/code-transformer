@@ -15,6 +15,7 @@ from code_transformer.modeling.constants import NUM_SUB_TOKENS, MAX_NUM_TOKENS, 
 from code_transformer.preprocessing.graph.ast import ASTGraph
 from code_transformer.preprocessing.nlp.javaparser import java_to_ast
 from code_transformer.preprocessing.nlp.semantic import semantic_parse
+from code_transformer.preprocessing.nlp.treesitter import treesitter_ast
 from code_transformer.preprocessing.nlp.tokenization import PygmentsTokenizer, CTToken
 from code_transformer.preprocessing.pipeline.filter import CodePreprocessor, CommentsRemover, \
     EmptyLinesRemover, StringMasker, NumbersMasker, IndentTransformer, SubTokenizer, WhitespaceRemover, TokensLimiter, \
@@ -81,9 +82,14 @@ class CTStage1Preprocessor:
         # Step 3: Create ASTs from code snippets
         if self.language == 'java':
             ast_batch, idx_successful = java_to_ast(*stripped_code_snippets)
+            prune = True
+        elif self.language == 'cpp':
+            ast_batch, idx_successful = treesitter_ast(self.language, *stripped_code_snippets)
+            prune = False
         else:
             ast_batch, idx_successful = semantic_parse(self.language, "--fail-on-parse-error", "--json-graph",
                                                        process_identifier, *stripped_code_snippets, quiet=False)
+            prune = True
 
         # In case, some of the snippets in the batch could not be parsed, we just ignore them
         if idx_successful is not None:
@@ -103,7 +109,8 @@ class CTStage1Preprocessor:
             for ast_graph in ast_batch['files']:
                 ast = ASTGraph.from_semantic(ast_graph)
                 # Prune 'Empty' nodes to save some space later when calculating NxN matrices on ast
-                ast.prune()
+                if prune:
+                    ast.prune()
                 ast_graph_batch.append(ast)
 
         # Step 5: Calculate mapping between tokens and graph nodes

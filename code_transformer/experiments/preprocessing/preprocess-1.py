@@ -8,20 +8,22 @@ import itertools
 import os
 import random
 import signal
-import sys
 import traceback
 
 from joblib import parallel_backend, Parallel, delayed
 from sacred import Experiment
 
+from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
+from code_transformer.env import POJ_RAW_DATA_PATH, POJ_DATA_PATH_STAGE_1
+from code_transformer.env import CODEFORCES_RAW_DATA_PATH, CODEFORCES_DATA_PATH_STAGE_1
 from code_transformer.preprocessing.datamanager.c2s.raw import C2SRawDataLoader
+from code_transformer.preprocessing.datamanager.cpp.raw import CPPRawDataLoader
 from code_transformer.preprocessing.datamanager.csn.raw import CSNRawDataLoader
 from code_transformer.preprocessing.datamanager.preprocessed import CTBufferedDataManager
 from code_transformer.preprocessing.nlp.vocab import WordCounter, CodeSummarizationVocabularyBuilder, VocabularyBuilder
 from code_transformer.preprocessing.pipeline.stage1 import CTStage1Preprocessor, PreprocessingException
 from code_transformer.utils.log import get_logger
 from code_transformer.utils.timing import Timing
-from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
 
 ex = Experiment(base_dir='../../..', interactive=False)
 
@@ -69,6 +71,10 @@ class Preprocess1Container:
             self.dataset_name = language
             self.language = "java"
             self.dataset_type = "code2seq"
+        elif language in {"poj_104", "codeforces"}:
+            self.dataset_name = language
+            self.language = "cpp"
+            self.dataset_type = language
         else:
             self.dataset_name = language
             self.dataset_type = "code-search-net"
@@ -76,8 +82,17 @@ class Preprocess1Container:
 
         if self.dataset_type == 'code2seq':
             self.input_data_path = CODE2SEQ_EXTRACTED_METHODS_DATA_PATH
+            self.output_path = DATA_PATH_STAGE_1
+        elif self.dataset_type == 'poj_104':
+            self.input_data_path = POJ_RAW_DATA_PATH
+            self.output_path = POJ_DATA_PATH_STAGE_1
+        elif self.dataset_type == 'codeforces':
+            self.input_data_path = CODEFORCES_RAW_DATA_PATH
+            self.output_path = CODEFORCES_DATA_PATH_STAGE_1
         else:
             self.input_data_path = CSN_RAW_DATA_PATH
+            self.output_path = DATA_PATH_STAGE_1
+
 
     @ex.capture
     def _store_config(self, _config):
@@ -88,7 +103,7 @@ class Preprocess1Container:
     # =========================================================================
 
     def _setup_data_manager(self):
-        self.data_manager = CTBufferedDataManager(DATA_PATH_STAGE_1, self.dataset_name, self.partition)
+        self.data_manager = CTBufferedDataManager(self.output_path, self.dataset_name, self.partition)
 
     def _setup_vocab_builder(self):
         if self.partition == 'train':
@@ -115,6 +130,9 @@ class Preprocess1Container:
         if self.dataset_type == 'code2seq':
             self.dataloader = C2SRawDataLoader(self.input_data_path)
             self.dataloader.load_dataset(self.dataset_name, partition=self.partition)
+        elif self.dataset_type in {"poj_104", "codeforces"}:
+            self.dataloader = CPPRawDataLoader(self.input_data_path)
+            self.dataloader.load_all_for(partition=self.partition)
         else:
             self.dataloader = CSNRawDataLoader(self.input_data_path)
             self.dataloader.load_all_for(self.language, partition=self.partition)
