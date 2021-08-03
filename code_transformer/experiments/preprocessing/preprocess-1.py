@@ -13,8 +13,9 @@ import traceback
 from joblib import parallel_backend, Parallel, delayed
 from sacred import Experiment
 
-from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, POJ_RAW_DATA_PATH, \
-    CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
+from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
+from code_transformer.env import POJ_RAW_DATA_PATH, POJ_DATA_PATH_STAGE_1
+from code_transformer.env import CODEFORCES_RAW_DATA_PATH, CODEFORCES_DATA_PATH_STAGE_1
 from code_transformer.preprocessing.datamanager.c2s.raw import C2SRawDataLoader
 from code_transformer.preprocessing.datamanager.cpp.raw import CPPRawDataLoader
 from code_transformer.preprocessing.datamanager.csn.raw import CSNRawDataLoader
@@ -81,10 +82,18 @@ class Preprocess1Container:
 
         if self.dataset_type == 'code2seq':
             self.input_data_path = CODE2SEQ_EXTRACTED_METHODS_DATA_PATH
+            self.output_path = DATA_PATH_STAGE_1
         elif self.dataset_type == 'poj_104':
             self.input_data_path = POJ_RAW_DATA_PATH
+            self.output_path = POJ_DATA_PATH_STAGE_1
+        elif self.dataset_type == 'codeforces':
+            self.input_data_path = CODEFORCES_RAW_DATA_PATH
+            self.output_path = CODEFORCES_DATA_PATH_STAGE_1
         else:
             self.input_data_path = CSN_RAW_DATA_PATH
+            self.output_path = DATA_PATH_STAGE_1
+
+        print(self.output_path)
 
     @ex.capture
     def _store_config(self, _config):
@@ -95,7 +104,7 @@ class Preprocess1Container:
     # =========================================================================
 
     def _setup_data_manager(self):
-        self.data_manager = CTBufferedDataManager(DATA_PATH_STAGE_1, self.dataset_name, self.partition)
+        self.data_manager = CTBufferedDataManager(self.output_path, self.dataset_name, self.partition)
 
     def _setup_vocab_builder(self):
         if self.partition == 'train':
