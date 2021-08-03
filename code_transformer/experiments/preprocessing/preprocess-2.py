@@ -117,7 +117,7 @@ class Preprocess2Container:
             self.output_path = POJ_DATA_PATH_STAGE_2
         elif language == "codeforces":
             self.input_path = CODEFORCES_DATA_PATH_STAGE_1
-            self.output_path = CODEFORCES_DATA_PATH_STAGE_1
+            self.output_path = CODEFORCES_DATA_PATH_STAGE_2
         else:
             self.input_path = DATA_PATH_STAGE_1
             self.output_path = DATA_PATH_STAGE_2
