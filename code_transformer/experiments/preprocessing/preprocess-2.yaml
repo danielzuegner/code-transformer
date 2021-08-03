@@ -2,7 +2,7 @@ experiment_setup:
   executable: 'code_transformer/experiments/preprocessing/preprocess-2.py'
 
 execution:
-  num_processes: 1
+  num_processes: 15
   batch_size: 100
   dataset_slice_size: 5000
 
@@ -18,7 +18,7 @@ preprocessing:
 distances:
   ppr_alpha: 0.15
   ppr_use_log: True
-  ppr_threshold: 0.006737946999085467
+  ppr_threshold: 0.006737946999085467  # e^-5
   sp_threshold: None
   ancestor_sp_forward: True
   ancestor_sp_backward: True

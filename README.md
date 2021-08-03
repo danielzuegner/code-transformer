@@ -264,7 +264,7 @@ Download the raw code2seq dataset files (Java classes) as described in the [raw 
    ```
 2. Compute ASTs (stage 1)  
     ```shell
-    python -m scripts.run-preprocessing code_transformer/experiments/preprocessing/preprocess-1.yaml {java-small|java-medium|java-large} {train|valid|test}
+    python -m scripts.run-preprocessing code_transformer/experiments/preprocessing/preprocess-1-code2seq.yaml {java-small|java-medium|java-large} {train|valid|test}
    ```
 3. Compute graph distances (stage 2)  
     ```shell
