@@ -93,7 +93,6 @@ class Preprocess1Container:
             self.input_data_path = CSN_RAW_DATA_PATH
             self.output_path = DATA_PATH_STAGE_1
 
-        print(self.output_path)
 
     @ex.capture
     def _store_config(self, _config):
