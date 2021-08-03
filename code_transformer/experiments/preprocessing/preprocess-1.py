@@ -131,7 +131,7 @@ class Preprocess1Container:
         if self.dataset_type == 'code2seq':
             self.dataloader = C2SRawDataLoader(self.input_data_path)
             self.dataloader.load_dataset(self.dataset_name, partition=self.partition)
-        elif self.dataset_type == "poj_104":
+        elif self.dataset_type in {"poj_104", "codeforces"}:
             self.dataloader = CPPRawDataLoader(self.input_data_path)
             self.dataloader.load_all_for(partition=self.partition)
         else:
