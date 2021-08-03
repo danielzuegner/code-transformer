@@ -13,7 +13,7 @@ import traceback
 from joblib import parallel_backend, Parallel, delayed
 from sacred import Experiment
 
-from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, CPP_RAW_DATA_PATH, \
+from code_transformer.env import CODE2SEQ_EXTRACTED_METHODS_DATA_PATH, POJ_RAW_DATA_PATH, \
     CSN_RAW_DATA_PATH, DATA_PATH_STAGE_1
 from code_transformer.preprocessing.datamanager.c2s.raw import C2SRawDataLoader
 from code_transformer.preprocessing.datamanager.cpp.raw import CPPRawDataLoader
@@ -70,10 +70,10 @@ class Preprocess1Container:
             self.dataset_name = language
             self.language = "java"
             self.dataset_type = "code2seq"
-        elif language == "cpp":
+        elif language in {"poj_104", "codeforces"}:
             self.dataset_name = language
             self.language = "cpp"
-            self.dataset_type = "cpp"
+            self.dataset_type = language
         else:
             self.dataset_name = language
             self.dataset_type = "code-search-net"
@@ -81,8 +81,8 @@ class Preprocess1Container:
 
         if self.dataset_type == 'code2seq':
             self.input_data_path = CODE2SEQ_EXTRACTED_METHODS_DATA_PATH
-        elif self.dataset_type == 'cpp':
-            self.input_data_path = CPP_RAW_DATA_PATH
+        elif self.dataset_type == 'poj_104':
+            self.input_data_path = POJ_RAW_DATA_PATH
         else:
             self.input_data_path = CSN_RAW_DATA_PATH
 
@@ -122,7 +122,7 @@ class Preprocess1Container:
         if self.dataset_type == 'code2seq':
             self.dataloader = C2SRawDataLoader(self.input_data_path)
             self.dataloader.load_dataset(self.dataset_name, partition=self.partition)
-        elif self.dataset_type == "cpp":
+        elif self.dataset_type == "poj_104":
             self.dataloader = CPPRawDataLoader(self.input_data_path)
             self.dataloader.load_all_for(partition=self.partition)
         else:
