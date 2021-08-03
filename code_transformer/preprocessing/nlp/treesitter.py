@@ -12,18 +12,14 @@ from os.path import exists, join
 from os import mkdir
 
 BUILD_PATH = "build"
+TREE_SITTER_BIN = join(BUILD_PATH, "code-transformer-languages.so")
 
 logger = get_logger(__file__)
 
 if not exists(BUILD_PATH):
     mkdir(BUILD_PATH)
 
-languages = [
-    "python",
-    "javascript",
-    "go",
-    "cpp"
-]
+languages = ["cpp"]
 
 for lang in languages:
     ts_lang_repo = f"tree-sitter-{lang}"
@@ -35,20 +31,7 @@ for lang in languages:
         _ = cabal_call.communicate()
         cabal_call.wait()
 
-Language.build_library(
-  "build/my-languages.so",
-  [
-    "build/tree-sitter-go",
-    "build/tree-sitter-javascript",
-    "build/tree-sitter-python",
-    "build/tree-sitter-cpp"
-  ]
-)
-
-GO_LANGUAGE = Language('build/my-languages.so', 'go')
-JS_LANGUAGE = Language('build/my-languages.so', 'javascript')
-PY_LANGUAGE = Language('build/my-languages.so', 'python')
-CPP_LANGUAGE = Language('build/my-languages.so', 'cpp')
+Language.build_library(TREE_SITTER_BIN, [join(BUILD_PATH, f"tree-sitter-{lang}") for lang in languages])
 
 
 def traverse_tree(tree: Tree):
@@ -74,9 +57,9 @@ def traverse_tree(tree: Tree):
                 retracing = False
 
 
-def cpp_to_ast(*code_snippets):
+def treesitter_ast(language, *code_snippets):
     parser = Parser()
-    parser.set_language(CPP_LANGUAGE)
+    parser.set_language(Language(TREE_SITTER_BIN, language))
 
     asts = []
     idx_successful = []
@@ -104,7 +87,7 @@ def cpp_to_ast(*code_snippets):
             for i, node in idx2node.items()]
 
         def get_range(node):
-            return (node.start_point, node.end_point)
+            return node.start_point, node.end_point
 
         ast["edges"] = []
         for i, node in idx2node.items():
