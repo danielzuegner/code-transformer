@@ -50,11 +50,16 @@ class CTPreprocessedDataManager(DataManager):
         employ oversampling (i.e., duplication of samples from minority languages) to ensure that samples will occur
         evenly.
         """
-
-        self.dataset_location = f"{data_location}/{language}/{partition}"
         # Vocabularies and word counters are created on training data and used for all partitions
-        self.vocabularies_path = f"{data_location}/{language}/vocabularies"
-        self.word_counters_path = f"{data_location}/{language}/word-counters"
+        if language not in {"poj_104", "codeforces"}:
+            self.dataset_location = f"{data_location}/{language}/{partition}"
+            self.vocabularies_path = f"{data_location}/{language}/vocabularies"
+            self.word_counters_path = f"{data_location}/{language}/word-counters"
+        else:
+            self.dataset_location = f"{data_location}/{partition}"
+            self.vocabularies_path = f"{data_location}/vocabularies"
+            self.word_counters_path = f"{data_location}/word-counters"
+
         self.current_dataset_batch = 0
         self.language = language
         self.partition = partition

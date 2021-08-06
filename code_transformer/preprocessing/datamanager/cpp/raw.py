@@ -4,6 +4,7 @@ Dataloader for the raw method snippets from the CPP dataset stored as raw cpp fi
 
 import os
 import random
+from os.path import dirname, basename
 
 from code_transformer.preprocessing.datamanager.base import DataManager, RawDataLoader
 from code_transformer.preprocessing.datamanager.csn.raw import CSNRawSample
@@ -22,7 +23,8 @@ class CPPRawDataLoader(RawDataLoader):
     def load(self, file_path_):
         with open(file_path_, 'r', encoding="ascii") as f:
             code = f.read()
-        self.lines.append(code)
+        label = basename(dirname(file_path_))
+        self.lines.append((label, code))
 
     def load_all_for(self, partition=None):
         if partition is None:
@@ -49,7 +51,8 @@ class CPPRawDataLoader(RawDataLoader):
         else:
             lines = self.lines
 
-        reader = map(lambda code: CSNRawSample("main", None, code), lines)
+        # Each line is a tuple (label, code)
+        reader = map(lambda line: CSNRawSample(line[0], None, line[1]), lines)
 
         if batch_size > 1:
             return DataManager.to_batches(reader, batch_size)

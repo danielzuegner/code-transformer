@@ -8,7 +8,7 @@ from code_transformer.preprocessing.dataset.code_summarization import CTCodeSumm
     CTCodeSummarizationDatasetNoPunctuation
 from code_transformer.preprocessing.graph.distances import DistanceBinning
 from code_transformer.preprocessing.graph.transform import TokenDistancesTransform
-from code_transformer.env import DATA_PATH_STAGE_2
+from code_transformer.env import DATA_PATH_STAGE_2, POJ_DATA_PATH_STAGE_2, CODEFORCES_DATA_PATH_STAGE_2
 
 
 class CTCodeSummarizationMixin(ExperimentSetup, ABC):
@@ -19,7 +19,15 @@ class CTCodeSummarizationMixin(ExperimentSetup, ABC):
                    use_no_punctuation=False,
                    use_pointer_network=False, sort_by_length=False, chunk_size=None, filter_language=None,
                    dataset_imbalance=None, mask_all_tokens=False):
-        self.data_manager = CTBufferedDataManager(DATA_PATH_STAGE_2, language, shuffle=True,
+
+        if language == "poj_104":
+            stage2_path = POJ_DATA_PATH_STAGE_2
+        elif language == "codeforces":
+            stage2_path = CODEFORCES_DATA_PATH_STAGE_2
+        else:
+            stage2_path = DATA_PATH_STAGE_2
+
+        self.data_manager = CTBufferedDataManager(stage2_path, language, shuffle=True,
                                                   infinite_loading=True,
                                                   mini_dataset=mini_dataset, sort_by_length=sort_by_length,
                                                   chunk_size=chunk_size, filter_language=filter_language,
@@ -68,7 +76,7 @@ class CTCodeSummarizationMixin(ExperimentSetup, ABC):
 
         self.use_validation = use_validation
         if self.use_validation:
-            data_manager_validation = CTBufferedDataManager(DATA_PATH_STAGE_2, language, partition="valid",
+            data_manager_validation = CTBufferedDataManager(stage2_path, language, partition="valid",
                                                             shuffle=True, infinite_loading=True,
                                                             mini_dataset=mini_dataset, filter_language=filter_language,
                                                             dataset_imbalance=dataset_imbalance)
@@ -96,7 +104,7 @@ class CTCodeSummarizationMixin(ExperimentSetup, ABC):
                                                                      use_pointer_network=use_pointer_network)
 
         self.dataset_validation_creator = \
-            lambda infinite_loading: self._create_validation_dataset(DATA_PATH_STAGE_2,
+            lambda infinite_loading: self._create_validation_dataset(stage2_path,
                                                                      language,
                                                                      use_only_ast,
                                                                      use_no_punctuation,
