@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import threading
 from collections import OrderedDict
+from json import JSONDecodeError
 
 from code_transformer.env import SEMANTIC_EXECUTABLE
 from code_transformer.utils.log import get_logger
@@ -47,7 +48,8 @@ def run_semantic(command, arg, output_type, *files, quiet=True):
     call.append(arg)
     call.extend([command, output_type])
     call.extend(files)
-    cabal_call = subprocess.Popen(" ".join(call), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    call[0] = call[0].replace(' ', '\\ ')  # Ensure all whitespaces in the path are escaped
+    cabal_call = subprocess.Popen(' '.join(call), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                   text=True, shell=True)
     output, errors = cabal_call.communicate()
 
@@ -55,7 +57,11 @@ def run_semantic(command, arg, output_type, *files, quiet=True):
 
     # if output of a command is valid json, already parse it
     if output_type == '--json' or output_type == '--json-graph' or output_type == '--symbols':
-        output = json.loads(output, object_pairs_hook=OrderedDict)
+        try:
+            output = json.loads(output, object_pairs_hook=OrderedDict)
+        except JSONDecodeError as e:
+            raise ValueError(f"semantic command `{' '.join(call)}` "
+                             f"returned JSON `{output}`") from e
 
     if not errors == "":
         # We can filter the erroneous files
